@@ -10,13 +10,19 @@
 
     <button class="new-game" type="button">New Game</button>
 
-    <!-- {{#if gameStarted}} -->
-      <ul class="cards">
-        {{#each cards}}
-          {{> card}}
-        {{/each}}
-      </ul>
-    <!-- {{/if}} -->
+    {{>addPlayerForm}}
+
+    <ul class="players">
+      {{#each players}}
+        {{> player}}
+      {{/each}}
+    </ul>
+
+    <ul class="cards">
+      {{#each cards}}
+        {{> card}}
+      {{/each}}
+    </ul>
 
   </div>
 </body>
@@ -26,4 +32,17 @@
   <li>
     <span class="text">{{text}}</span>
   </li>
+</template>
+
+<template name="player">
+  <li>
+    <span class="text">{{name}}: {{score}}</span>
+  </li>
+</template>
+
+<template name="addPlayerForm">
+  <form class="add-player">
+    <input type="text" name="playerName">
+    <input type="submit" value="Add Player">
+  </form>
 </template>
