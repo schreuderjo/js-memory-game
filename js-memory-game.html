@@ -1,0 +1,29 @@
+<head>
+  <title>js-memory-game</title>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Welcome to the World of Tomorrow!!</h1>
+    </header>
+
+    <button class="new-game" type="button">New Game</button>
+
+    <!-- {{#if gameStarted}} -->
+      <ul class="cards">
+        {{#each cards}}
+          {{> card}}
+        {{/each}}
+      </ul>
+    <!-- {{/if}} -->
+
+  </div>
+</body>
+
+
+<template name="card">
+  <li>
+    <span class="text">{{text}}</span>
+  </li>
+</template>
