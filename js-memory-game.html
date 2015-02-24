@@ -18,21 +18,29 @@
       {{/each}}
     </ul>
 
-    <ul class="cards">
+    <div name="gameBoard">
       {{#each cards}}
-        {{> card}}
+        {{> cardsRow}}
       {{/each}}
-    </ul>
+    </div>
+
+    <div class="container"></div>
 
   </div>
 </body>
 
+<template name="cardsRow">
+  <div class="row">
+    {{#each row}}
+      {{> card}}
+    {{/each}}
+  </div>
+</template>
 
 <template name="card">
-  <li>
-    <span class="text">{{text}}</span>
-  </li>
+  <span class="text">{{text}}</span>
 </template>
+
 
 <template name="player">
   <li>
