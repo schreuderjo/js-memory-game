@@ -13,7 +13,11 @@ function Player(name){
   this.score = 0;
 }
 
-var futuramaDeck = ["Bender", "Leela", "Fry", "Zoidberg", "Amy", "Professor", "Zapp Brannigan", "Hermes", "Kiff", "Scruffy", "Nibbler", "Calculon"];
+var futuramaDeck = [
+  {name: "Fry", img: "/public/fry.jpeg"}
+];
+
+// var futuramaDeck = ["Bender", "Leela", "Fry", "Zoidberg", "Amy", "Professor", "Zapp Brannigan", "Hermes", "Kiff", "Scruffy", "Nibbler", "Calculon", "Mom", "Cubert", "Hypnotoad", "Lrrr", ];
 
 if (Meteor.isClient) {
   Meteor.subscribe("cards");
@@ -64,9 +68,9 @@ if (Meteor.isClient) {
   });
 
   Template.card.helpers({
-      text: function() {
+      img: function() {
           console.log(this); // a number in a chunk
-          return this.text;
+          return this.img;
       }
   });
 
@@ -119,7 +123,8 @@ Meteor.methods({
   createDeck: function(cards){
     for (var i=0; i<cards.length; i++) {
       Deck.insert({
-        text: cards[i],
+        name: cards[i].name,
+        img: cards[i].img,
         createdAt: new Date()
       });
     }
