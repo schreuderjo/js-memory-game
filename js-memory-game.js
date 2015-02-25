@@ -1,24 +1,3 @@
-Deck = new Mongo.Collection("cards");
-Players = new Mongo.Collection("players");
-
-function Game(){
-  this.started = false;
-  this.players = 0;
-  this.solved = false;
-  this.winner;
-}
-
-function Player(name){
-  this.name = name;
-  this.score = 0;
-}
-
-var futuramaDeck = [
-  {name: "Fry", img: "/public/fry.jpeg"}
-];
-
-// var futuramaDeck = ["Bender", "Leela", "Fry", "Zoidberg", "Amy", "Professor", "Zapp Brannigan", "Hermes", "Kiff", "Scruffy", "Nibbler", "Calculon", "Mom", "Cubert", "Hypnotoad", "Lrrr", ];
-
 if (Meteor.isClient) {
   Meteor.subscribe("cards");
   Meteor.subscribe("players");
@@ -69,19 +48,25 @@ if (Meteor.isClient) {
 
   Template.card.helpers({
       img: function() {
-          console.log(this); // a number in a chunk
-          return this.img;
+        // var img = "fry.jpeg"
+        console.log(this); // a number in a chunk
+        // return img;
+        return this.img;
       }
   });
 
   Template.body.events({
-    "click .new-game": function (event) {
-      event.preventDefault();
-      var currentGame = new Game();
-      currentGame.started = true;
-      $("container").html(Blaze.render(Template.gameBoard));
+    // "click .new-game": function (event) {
+    //   event.preventDefault();
+    //   var currentGame = new Game();
+    //   currentGame.started = true;
+    //   $("container").html(Blaze.render(Template.gameBoard));
 
-      // return false;
+    //   // return false;
+    // }
+    "click .card": function(event){
+      event.preventDefault();
+      console.log("wooo");
     }
   });
 
