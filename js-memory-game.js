@@ -34,22 +34,25 @@ if (Meteor.isClient) {
 
   Template.body.helpers({
     cards: function() {
-      var array = Deck.find({}).fetch();
+      var deck = Deck.find({}).fetch();
       var shuffledArray = [];
-      var limit = array.length;
+      var limit = deck.length;
       var randomIndex;
       var chunks = [];
 
-      while (array.length !== 0) {
+      var clonedDeck = deck.slice(0);
+      var doubledDeck = deck.concat(clonedDeck);
+
+      while (doubledDeck.length !== 0) {
         randomIndex = Math.floor(Math.random()*limit);
-        shuffledArray.push(array[randomIndex]);
-        array.splice(randomIndex, 1);
-        limit = array.length;
+        shuffledArray.push(doubledDeck[randomIndex]);
+        doubledDeck.splice(randomIndex, 1);
+        limit = doubledDeck.length;
       }
 
       while (shuffledArray.length > 0) {
-        chunks.push(shuffledArray.slice(0, 4));
-        shuffledArray = shuffledArray.slice(4);
+        chunks.push(shuffledArray.slice(0, 8));
+        shuffledArray = shuffledArray.slice(8);
       }
       return chunks;
     },
