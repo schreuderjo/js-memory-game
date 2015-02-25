@@ -34,11 +34,14 @@ var futuramaDeck = [
 
 function shuffle(array){
   var shuffledArray = [];
-  var rand = 0;
+  var limit = array.length;
+  var randomIndex;
 
-  for (var i=0; array.length > 0; i) {
-    rand = Math.floor(Math.random());
-    shuffledArray.push(array[rand]);
-    array = array.slice(rand);
+  while (array.length !== 0) {
+    randomIndex = Math.floor(Math.random()*limit);
+    shuffledArray.push(array[randomIndex]);
+    array.splice(randomIndex, 1);
+    limit = array.length;
   }
+  return shuffledArray;
 }

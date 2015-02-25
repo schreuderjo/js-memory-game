@@ -1,3 +1,17 @@
+// function shuffle(array){
+//   var shuffledArray = [];
+//   var limit = array.length;
+//   var randomIndex;
+
+//   while (array.length !== 0) {
+//     randomIndex = Math.floor(Math.random()*limit);
+//     shuffledArray.push(array[randomIndex]);
+//     array.splice(randomIndex, 1);
+//     limit = array.length;
+//   }
+//   return shuffledArray;
+// }
+
 if (Meteor.isClient) {
   Meteor.subscribe("cards");
   Meteor.subscribe("players");
@@ -20,20 +34,30 @@ if (Meteor.isClient) {
 
   Template.body.helpers({
     cards: function() {
-      var allCards = Deck.find({}).fetch();
+      var array = Deck.find({}).fetch();
+      var shuffledArray = [];
+      var limit = array.length;
+      var randomIndex;
       var chunks = [];
 
-      while (allCards.length > 0) {
-        chunks.push(allCards.slice(0, 4));
-        allCards = allCards.slice(4);
+      while (array.length !== 0) {
+        randomIndex = Math.floor(Math.random()*limit);
+        shuffledArray.push(array[randomIndex]);
+        array.splice(randomIndex, 1);
+        limit = array.length;
       }
 
-      console.log(chunks);
+      while (shuffledArray.length > 0) {
+        chunks.push(shuffledArray.slice(0, 4));
+        shuffledArray = shuffledArray.slice(4);
+      }
       return chunks;
     },
+
     players: function() {
       return Players.find({});
     },
+
     gameStarted: function(){
       return currentGame.started;
     }
@@ -41,16 +65,14 @@ if (Meteor.isClient) {
 
   Template.cardsRow.helpers({
     row: function() {
-        console.log(this); // a chunk of cards
+        // console.log(this); // a chunk of cards
         return this;
     }
   });
 
   Template.card.helpers({
       img: function() {
-        // var img = "fry.jpeg"
-        console.log(this); // a number in a chunk
-        // return img;
+        // console.log(this); // a number in a chunk
         return this.img;
       }
   });
@@ -67,6 +89,7 @@ if (Meteor.isClient) {
     "click .card": function(event){
       event.preventDefault();
       console.log("wooo");
+      Meteor.call('sendLogMessage');
     }
   });
 
@@ -113,5 +136,9 @@ Meteor.methods({
         createdAt: new Date()
       });
     }
+  },
+
+  'sendLogMessage': function(){
+    console.log("Hello world");
   }
 });
