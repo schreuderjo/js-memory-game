@@ -1,36 +1,6 @@
-// function shuffle(array){
-//   var shuffledArray = [];
-//   var limit = array.length;
-//   var randomIndex;
-
-//   while (array.length !== 0) {
-//     randomIndex = Math.floor(Math.random()*limit);
-//     shuffledArray.push(array[randomIndex]);
-//     array.splice(randomIndex, 1);
-//     limit = array.length;
-//   }
-//   return shuffledArray;
-// }
-
 if (Meteor.isClient) {
   Meteor.subscribe("cards");
   Meteor.subscribe("players");
-
-  // Template.gameBoard.helpers({
-  //   cards: function() {
-  //     var allCards = Deck.find({}).fetch();
-  //     console.log(allCards);
-  //     var rows = [];
-
-  //     while (allCards.length > 0) {
-  //       rows.push(allCards.slice(0, 4));
-  //       allCards = allCards.slice(4);
-  //       console.log(rows);
-  //     }
-  //     return rows;
-  //   }
-  // });
-
 
   Template.body.helpers({
     cards: function() {
@@ -81,18 +51,9 @@ if (Meteor.isClient) {
   });
 
   Template.body.events({
-    // "click .new-game": function (event) {
-    //   event.preventDefault();
-    //   var currentGame = new Game();
-    //   currentGame.started = true;
-    //   $("container").html(Blaze.render(Template.gameBoard));
-
-    //   // return false;
-    // }
     "click .card": function(event){
       event.preventDefault();
       console.log("wooo");
-      Meteor.call('sendLogMessage');
     }
   });
 
@@ -139,9 +100,5 @@ Meteor.methods({
         createdAt: new Date()
       });
     }
-  },
-
-  'sendLogMessage': function(){
-    console.log("Hello world");
   }
 });
