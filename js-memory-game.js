@@ -1,3 +1,32 @@
+function Game(){
+  this.players = [];
+  this.solved = false;
+  this.rounds = 0;
+  this.turn = 0;
+}
+
+function Turn(){
+  this.targetOne;
+  this.targetTwo;
+}
+
+function Player(name){
+  this.name = name;
+  this.score = 0;
+  this.turns = [];
+}
+
+Player.prototype.takeTurn = function(){
+  currentTurn = new Turn();
+}
+
+Game.prototype.addPlayer = function(name){
+  var newPlayer = new Player(name);
+  this.players.push(newPlayer);
+}
+
+var currentGame;
+
 if (Meteor.isClient) {
   Meteor.subscribe("cards");
   Meteor.subscribe("players");
@@ -32,7 +61,7 @@ if (Meteor.isClient) {
     },
 
     gameStarted: function(){
-      return currentGame.started;
+      // return currentGame.started;
     }
   });
 
@@ -44,9 +73,9 @@ if (Meteor.isClient) {
   });
 
   Template.card.helpers({
-      img: function() {
+      card: function() {
         // console.log(this); // a number in a chunk
-        return this.img;
+        return this;
       }
   });
 
@@ -54,6 +83,16 @@ if (Meteor.isClient) {
     "click .card": function(event){
       event.preventDefault();
       console.log("wooo");
+      var selectedCardId = event.target.id
+      var currentPlayer;
+      debugger;
+      // Meteor.call("findCard", )
+    },
+
+    "click .new-game": function(event){
+      event.preventDefault();
+      currentGame = new Game();
+      console.log(currentGame);
     }
   });
 
@@ -61,7 +100,9 @@ if (Meteor.isClient) {
     "submit form": function(event) {
       event.preventDefault();
       var playerName = event.target.playerName.value;
-      Meteor.call("addPlayer", playerName);
+      // Meteor.call("addPlayer", playerName);
+      currentGame.addPlayer(playerName);
+      console.log(currentGame);
       event.target.playerName.value = "";
     }
   });
@@ -84,7 +125,8 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  addPlayer: function(name) {
+  addPlayer: function(name){
+    currentGame.addPlayer(name);
     Players.insert({
       name: name,
       score: 0,

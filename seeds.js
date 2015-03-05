@@ -1,17 +1,7 @@
 Deck = new Mongo.Collection("cards");
 Players = new Mongo.Collection("players");
+Games = new Mongo.Collection("games");
 
-function Game(){
-  this.started = false;
-  this.players = 0;
-  this.solved = false;
-  this.winner;
-}
-
-function Player(name){
-  this.name = name;
-  this.score = 0;
-}
 
 var futuramaDeck = [
   {name: "Fry", img: "fry.jpeg"},
@@ -32,16 +22,16 @@ var futuramaDeck = [
   {name: "Lrrr", img: "lrrr.jpeg"}
 ];
 
-function shuffle(array){
-  var shuffledArray = [];
-  var limit = array.length;
-  var randomIndex;
+// function shuffle(array){
+//   var shuffledArray = [];
+//   var limit = array.length;
+//   var randomIndex;
 
-  while (array.length !== 0) {
-    randomIndex = Math.floor(Math.random()*limit);
-    shuffledArray.push(array[randomIndex]);
-    array.splice(randomIndex, 1);
-    limit = array.length;
-  }
-  return shuffledArray;
-}
+//   while (array.length !== 0) {
+//     randomIndex = Math.floor(Math.random()*limit);
+//     shuffledArray.push(array[randomIndex]);
+//     array.splice(randomIndex, 1);
+//     limit = array.length;
+//   }
+//   return shuffledArray;
+// }
