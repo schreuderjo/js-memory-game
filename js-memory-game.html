@@ -18,6 +18,10 @@
       {{/each}}
     </ul>
 
+    <div class="currentGame">
+      {{>currentGame}}
+    </div>
+
     <div name="gameBoard">
       {{#each cards}}
         {{> cardsRow}}
@@ -44,6 +48,10 @@
   <li>
     <span class="text">{{name}}: {{score}}</span>
   </li>
+</template>
+
+<template name="currentGame">
+  <p>{{turn}}</p>
 </template>
 
 <template name="addPlayerForm">

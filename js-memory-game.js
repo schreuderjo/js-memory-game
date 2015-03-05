@@ -1,6 +1,7 @@
 function Game(){
   this.players = [];
   this.solved = false;
+  this.started = true;
   this.rounds = 0;
   this.turn = 0;
 }
@@ -30,6 +31,7 @@ var currentGame;
 if (Meteor.isClient) {
   Meteor.subscribe("cards");
   Meteor.subscribe("players");
+  Meteor.subscribe("games");
 
   Template.body.helpers({
     cards: function() {
@@ -60,23 +62,27 @@ if (Meteor.isClient) {
       return Players.find({});
     },
 
-    gameStarted: function(){
-      // return currentGame.started;
+    currentGame: function(){
+      return Games.find({});
     }
   });
 
   Template.cardsRow.helpers({
     row: function() {
-        // console.log(this); // a chunk of cards
         return this;
     }
   });
 
   Template.card.helpers({
       card: function() {
-        // console.log(this); // a number in a chunk
         return this;
       }
+  });
+
+  Template.body.helpers({
+    currentGame: function(){
+      return Session.get("currentGame");
+    }
   });
 
   Template.body.events({
@@ -92,6 +98,8 @@ if (Meteor.isClient) {
     "click .new-game": function(event){
       event.preventDefault();
       currentGame = new Game();
+      Meteor.call("newGame");
+      Session.set("currentGame", currentGame);
       console.log(currentGame);
     }
   });
@@ -100,9 +108,7 @@ if (Meteor.isClient) {
     "submit form": function(event) {
       event.preventDefault();
       var playerName = event.target.playerName.value;
-      // Meteor.call("addPlayer", playerName);
-      currentGame.addPlayer(playerName);
-      console.log(currentGame);
+      Meteor.call("addPlayer", playerName);
       event.target.playerName.value = "";
     }
   });
@@ -122,12 +128,18 @@ if (Meteor.isServer) {
   Meteor.publish("players", function () {
     return Players.find();
   });
+
+  Meteor.publish("games", function () {
+    return Games.find();
+  });
 }
 
 Meteor.methods({
   addPlayer: function(name){
-    currentGame.addPlayer(name);
+    var game = Session.get("currentGame")
+    debugger;
     Players.insert({
+      game_id: id,
       name: name,
       score: 0,
       createdAt: new Date()
@@ -142,5 +154,14 @@ Meteor.methods({
         createdAt: new Date()
       });
     }
+  },
+
+  newGame: function(){
+    Games.insert({
+      players: [],
+      winner: null,
+      turn: 0,
+      createdAt: new Date()
+    });
   }
 });
