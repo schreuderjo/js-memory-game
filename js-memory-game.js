@@ -1,72 +1,98 @@
+function Game(){
+  this.players = [];
+  this.solved = false;
+  this.rounds = 0;
+  this.turn = 0;
+}
+
+function Turn(){
+  this.targetOne;
+  this.targetTwo;
+}
+
+function Player(name){
+  this.name = name;
+  this.score = 0;
+  this.turns = [];
+}
+
+Player.prototype.takeTurn = function(){
+  currentTurn = new Turn();
+}
+
+Game.prototype.addPlayer = function(name){
+  var newPlayer = new Player(name);
+  this.players.push(newPlayer);
+}
+
+var currentGame;
+
 if (Meteor.isClient) {
   Meteor.subscribe("cards");
   Meteor.subscribe("players");
 
-  // Template.gameBoard.helpers({
-  //   cards: function() {
-  //     var allCards = Deck.find({}).fetch();
-  //     console.log(allCards);
-  //     var rows = [];
-
-  //     while (allCards.length > 0) {
-  //       rows.push(allCards.slice(0, 4));
-  //       allCards = allCards.slice(4);
-  //       console.log(rows);
-  //     }
-  //     return rows;
-  //   }
-  // });
-
-
   Template.body.helpers({
     cards: function() {
-      var allCards = Deck.find({}).fetch();
+      var deck = Deck.find({}).fetch();
+      var shuffledArray = [];
+      var limit = deck.length;
+      var randomIndex;
       var chunks = [];
 
-      while (allCards.length > 0) {
-        chunks.push(allCards.slice(0, 4));
-        allCards = allCards.slice(4);
+      var clonedDeck = deck.slice(0);
+      var doubledDeck = deck.concat(clonedDeck);
+
+      while (doubledDeck.length !== 0) {
+        randomIndex = Math.floor(Math.random()*limit);
+        shuffledArray.push(doubledDeck[randomIndex]);
+        doubledDeck.splice(randomIndex, 1);
+        limit = doubledDeck.length;
       }
 
-      console.log(chunks);
+      while (shuffledArray.length > 0) {
+        chunks.push(shuffledArray.slice(0, 8));
+        shuffledArray = shuffledArray.slice(8);
+      }
       return chunks;
     },
+
     players: function() {
       return Players.find({});
     },
+
     gameStarted: function(){
-      return currentGame.started;
+      // return currentGame.started;
     }
   });
 
   Template.cardsRow.helpers({
     row: function() {
-        console.log(this); // a chunk of cards
+        // console.log(this); // a chunk of cards
         return this;
     }
   });
 
   Template.card.helpers({
-      img: function() {
-        // var img = "fry.jpeg"
-        console.log(this); // a number in a chunk
-        // return img;
-        return this.img;
+      card: function() {
+        // console.log(this); // a number in a chunk
+        return this;
       }
   });
 
   Template.body.events({
-    // "click .new-game": function (event) {
-    //   event.preventDefault();
-    //   var currentGame = new Game();
-    //   currentGame.started = true;
-    //   $("container").html(Blaze.render(Template.gameBoard));
-
-    //   // return false;
-    // }
     "click .card": function(event){
       event.preventDefault();
       console.log("wooo");
+      var selectedCardId = event.target.id
+      var currentPlayer;
+      debugger;
+      // Meteor.call("findCard", )
+    },
+
+    "click .new-game": function(event){
+      event.preventDefault();
+      currentGame = new Game();
+      console.log(currentGame);
     }
   });
 
@@ -74,7 +100,9 @@ if (Meteor.isClient) {
     "submit form": function(event) {
       event.preventDefault();
       var playerName = event.target.playerName.value;
-      Meteor.call("addPlayer", playerName);
+      // Meteor.call("addPlayer", playerName);
+      currentGame.addPlayer(playerName);
+      console.log(currentGame);
       event.target.playerName.value = "";
     }
   });
@@ -97,7 +125,8 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  addPlayer: function(name) {
+  addPlayer: function(name){
+    currentGame.addPlayer(name);
     Players.insert({
       name: name,
       score: 0,
