@@ -1,0 +1,35 @@
+<head>
+  <title>js-memory-game</title>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Welcome to the World of Tomorrow!!</h1>
+    </header>
+
+    <button class="new-game" type="button">New Game</button>
+
+    <!-- {{>addPlayerForm}} -->
+
+ <!--    <ul class="players">
+      {{#each players}}
+        {{> player}}
+      {{/each}}
+    </ul> -->
+
+    <!-- <div class="currentGame"> -->
+      <!-- {{>currentGame}} -->
+    <!-- </div> -->
+
+    <div name="gameBoard">
+      {{#each cards}}
+        {{> cardsRow}}
+      {{/each}}
+    </div>
+
+  </div>
+</body>
+
+
+
