@@ -1,3 +1,5 @@
+var currentGame;
+
 Meteor.subscribe("cards");
 Meteor.subscribe("players");
 Meteor.subscribe("games");
@@ -65,10 +67,7 @@ Template.body.events({
 
   "click .new-game": function(event){
     event.preventDefault();
-    currentGame = new Game();
     Meteor.call("newGame");
-    Session.set("currentGame", currentGame);
-    console.log(currentGame);
   }
 });
 

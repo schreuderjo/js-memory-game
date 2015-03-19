@@ -4,6 +4,7 @@ function Game(){
   this.started = true;
   this.rounds = 0;
   this.turn = 0;
+  this.deck = [];
 }
 
 function Turn(){
@@ -26,4 +27,3 @@ Game.prototype.addPlayer = function(name){
   this.players.push(newPlayer);
 }
 
-var currentGame;
