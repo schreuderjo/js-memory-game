@@ -34,7 +34,7 @@ Template.body.helpers({
   },
 
   currentGame: function(){
-    return Games.find({});
+    return Games.find({}) || "cats";
   }
 });
 
