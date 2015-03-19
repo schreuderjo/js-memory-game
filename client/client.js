@@ -1,5 +1,3 @@
-var currentGame;
-
 Meteor.subscribe("cards");
 Meteor.subscribe("players");
 Meteor.subscribe("games");
@@ -32,42 +30,22 @@ Template.body.helpers({
   players: function() {
     return Players.find({});
   },
-
-  currentGame: function(){
-    return Games.find({});
-  }
 });
 
-Template.cardsRow.helpers({
-  row: function() {
-      return this;
-  }
-});
-
-Template.card.helpers({
-    card: function() {
-      return this;
-    }
-});
-
-Template.body.helpers({
-  currentGame: function(){
-    return Session.get("currentGame");
-  }
-});
 
 Template.body.events({
   "click .card": function(event){
     event.preventDefault();
     console.log("wooo");
     var selectedCardId = event.target.id
-    var currentPlayer;
-    // Meteor.call("findCard", )
   },
 
   "click .new-game": function(event){
     event.preventDefault();
     Meteor.call("newGame");
+    var allGames = Games.find().fetch();
+    var currentGame = allGames[allGames.length - 1];
+    Session.set('currentGame', currentGame);
   }
 });
 

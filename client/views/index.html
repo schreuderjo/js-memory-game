@@ -10,17 +10,15 @@
 
     <button class="new-game" type="button">New Game</button>
 
-    <!-- {{>addPlayerForm}} -->
+    {{>addPlayerForm}}
 
- <!--    <ul class="players">
+    <ul >
       {{#each players}}
         {{> player}}
       {{/each}}
-    </ul> -->
+    </ul>
 
-    <!-- <div class="currentGame"> -->
-      <!-- {{>currentGame}} -->
-    <!-- </div> -->
+      {{> gameStats}}
 
     <div name="gameBoard">
       {{#each cards}}
