@@ -31,32 +31,5 @@
   </div>
 </body>
 
-<template name="cardsRow">
-  <div class="row">
-    {{#each row}}
-      {{> card}}
-    {{/each}}
-  </div>
-</template>
-
-<template name="card">
-  <img src="{{card.img}}" class="card" id="{{card._id}}"/>
-</template>
 
 
-<template name="player">
-  <li>
-    <span class="text">{{name}}: {{score}}</span>
-  </li>
-</template>
-
-<template name="currentGame">
-  <p>{{turn}}</p>
-</template>
-
-<template name="addPlayerForm">
-  <form class="add-player">
-    <input type="text" name="playerName">
-    <input type="submit" value="Add Player">
-  </form>
-</template>
